@@ -2,22 +2,23 @@ print("top of the file")
 
 
 install.packages("ggplot2")
-install.package("readr")
-install.package("dplyr")
-install.package("janitor")
+install.packages("readr")
+install.packages("dplyr")
+install.packages("janitor")
 # install.package("ggplot2")
-
+ print("after the installation")
 
 library(ggplot2)
 library(readr)
 library(dplyr)
 library(janitor)
 
-
+print("afterloading")
 # setwd("projects/gh-pfdbot")
 # getwd()
 
 print("after the libraryesi")
+
 stock_data_raw <- read_csv("data/stock_data_sample.csv")
 stock_data <- stock_data_raw %>% clean_names()
 
