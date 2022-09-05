@@ -95,13 +95,16 @@ stock_tweet
 
 
 # https://canovasjm.netlify.app/2021/01/12/github-secrets-from-python-and-r/#read-into-r-script
-
+print("getting env vars now")
 
 CONSUMER_KEY <- Sys.getenv("CONSUMER_KEY")
 CONSUMER_SECRET <- Sys.getenv("CONSUMER_SECRET")
 ACCESS_TOKEN <- Sys.getenv("ACCESS_TOKEN")
 SECRET_KEY <- Sys.getenv("SECRET_KEY")
 
+print("consumer ey ")
+print(CONSUMER_KEY)
+print("now setting up")
 
 setup_twitter_oauth(consumer_key = CONSUMER_KEY,
                     consumer_secret = CONSUMER_SECRET,
@@ -109,7 +112,7 @@ setup_twitter_oauth(consumer_key = CONSUMER_KEY,
                     access_secret = SECRET_KEY)
 
 
-
+print("setup complete")
 tweet(stock_tweet)
 
 
