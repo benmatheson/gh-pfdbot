@@ -1,0 +1,24 @@
+on:
+  schedule:
+    - cron:  "1, * * * *"
+  workflow_dispatch:
+
+name: stock_tweet
+
+jobs:
+  run-r-script:
+    runs-on: ubuntu-latest
+    env:
+      CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+      CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Execute Script
+        run: |
+          Rscript "pfdbot_tweet.R"
