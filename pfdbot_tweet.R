@@ -68,15 +68,18 @@ stock_to_tweet <- stock_data[random_number ,]
 flag_data <- read_csv("data/flags.csv")
 industry_data <- read_csv("data/industries.csv")
 
+print("we have read in the csvs. now to select the emoji" )
 
 stock_flag <- (flag_data %>% filter (country == stock_to_tweet$country))$emoji
 stock_industry <- (industry_data %>% filter (industry == stock_to_tweet$industry_category))$emoji
 
 
-#####compoose the tweet
+print("#####compoose the tweet - format first ")
 
 
 shares <- format(stock_to_tweet$shares, digits=0, big.mark=",",scientific=FALSE)
+print( paste0(shares, "- - - shares"))
+
 market_value <- format(stock_to_tweet$market_value, digits =0, big.mark = ",", scientific=FALSE)
 # market_value <- format(stock_to_tweet$market_value, digits =0, big.mark = ",", scientific=FALSE)
 
