@@ -77,10 +77,10 @@ stock_industry <- (industry_data %>% filter (industry == stock_to_tweet$industry
 print("#####compoose the tweet - format first ")
 
 
-shares <- format(stock_to_tweet$shares, digits=0, big.mark=",",scientific=FALSE)
+shares <- format(stock_to_tweet$shares, nsmall=0, big.mark=",",scientific=FALSE)
 print( paste0(shares, "- - - shares"))
 
-market_value <- format(stock_to_tweet$market_value, digits =0, big.mark = ",", scientific=FALSE)
+market_value <- format(stock_to_tweet$market_value, nsmall =0, big.mark = ",", scientific=FALSE)
 # market_value <- format(stock_to_tweet$market_value, digits =0, big.mark = ",", scientific=FALSE)
 
 stock_tweet <- str_glue("Alaskans own {shares} shares of {stock_to_tweet$company_name} worth ${market_value}. It's in the {stock_industry} {stock_to_tweet$industry_category}, based in {stock_flag} {stock_to_tweet$country}.")
