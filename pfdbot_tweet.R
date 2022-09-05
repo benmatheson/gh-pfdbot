@@ -68,6 +68,34 @@ stock_to_tweet <- stock_data[random_number ,]
 flag_data <- read_csv("data/flags.csv")
 industry_data <- read_csv("data/industries.csv")
 
+##########################checking flags and industries
+
+# unique_countries <- unique(stock_data$country)
+# unique_industries <- unique(stock_data$industry_category)
+# 
+# 
+# unique_countries_flags <- unique(flag_data$country)
+# unique_industries_emoji <- unique(industry_data$industry)
+# 
+# 
+# stock_data_no_flag <- stock_data %>% filter (!country %in% unique_countries_flags)
+# stock_data_no_industry_emoji <- stock_data %>% filter (industry_category %in% unique_industries_emoji)
+
+##################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 print("we have read in the csvs. now to select the emoji" )
 
 stock_flag <- (flag_data %>% filter (country == stock_to_tweet$country))$emoji
