@@ -108,12 +108,12 @@ c_s_key_length <- nchar(CONSUMER_SECRET)
 a_t_key_length <- nchar(ACCESS_TOKEN)
 s_k_key_length <- nchar(SECRET_KEY)
 
-print("keylenths next")
-
-print(c_key_length)
-print(c_s_key_length)
-print(a_t_key_length)
-print(s_k_key_length)
+# print("keylenths next")
+# 
+# print(c_key_length)
+# print(c_s_key_length)
+# print(a_t_key_length)
+# print(s_k_key_length)
 
 
 print("now setting up")
@@ -128,7 +128,7 @@ setup_twitter_oauth(consumer_key = CONSUMER_KEY,
 
 
 print("setup complete")
-tweet(stock_tweet)
+tweet(stock_tweet, bypassCharLimit=T)
 
 
 ######
