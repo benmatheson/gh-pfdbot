@@ -102,8 +102,20 @@ CONSUMER_SECRET <- Sys.getenv("CONSUMER_SECRET")
 ACCESS_TOKEN <- Sys.getenv("ACCESS_TOKEN")
 SECRET_KEY <- Sys.getenv("SECRET_KEY")
 
-print("consumer ey ")
-print(CONSUMER_KEY)
+
+c_key_length <- nchar(CONSUMER_KEY)
+c_s_key_length <- nchar(CONSUMER_SECRET)
+a_t_key_length <- nchar(ACCESS_TOKEN)
+s_k_key_length <- nchar(SECRET_KEY)
+
+print("keylenths next")
+
+print(c_key_length)
+print(c_s_key_length)
+print(a_t_key_length)
+print(s_k_key_length)
+
+
 print("now setting up")
 
 options(httr_oauth_cache=F)
