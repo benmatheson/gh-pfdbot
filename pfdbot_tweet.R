@@ -106,6 +106,8 @@ print("consumer ey ")
 print(CONSUMER_KEY)
 print("now setting up")
 
+options(httr_oauth_cache=T)
+
 setup_twitter_oauth(consumer_key = CONSUMER_KEY,
                     consumer_secret = CONSUMER_SECRET,
                     access_token = ACCESS_TOKEN,
