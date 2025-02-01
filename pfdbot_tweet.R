@@ -115,7 +115,7 @@ stock_tweet
 print("getting env vars now")
 
 
-BSKYPASS <- Sys.getenv("bskypass")
+BSKYPASS <- Sys.getenv("BSKYPASS")
 
 print("now setting up")
 
