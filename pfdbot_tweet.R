@@ -113,7 +113,7 @@ market_value <- stock_to_tweet$market_value
 # market_value <- format(stock_to_tweet$market_value, digits =0, big.mark = ",", scientific=FALSE)
 
 stock_tweet <- str_glue("Alaskans own {shares} shares of {stock_to_tweet$company_name} worth ${market_value}. It's in the {stock_industry}, {stock_to_tweet$industry_category} industry, based in {stock_flag} {stock_to_tweet$country}.")
-stock_tweet
+print(stock_tweet)
 print("getting env vars now")
 
 
@@ -125,16 +125,19 @@ set_bluesky_user('pfdbot.bsky.social')
 set_bluesky_pass(BSKYPASS)
 
 
-options(httr_oauth_cache=F)
+# options(httr_oauth_cache=F)
 
 
 print("setup complete")
 
+# bs_post(
+#   text = stock_tweet 
+# )
 bs_post(
-  text = stock_tweet 
+  text = paste0(stock_tweet)
 )
 
-
+print("afer posting")
 
 ######
 
