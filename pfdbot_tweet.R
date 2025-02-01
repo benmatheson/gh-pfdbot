@@ -1,22 +1,23 @@
 print("top of the file")
 
 
-install.packages("ggplot2")
+# install.packages("ggplot2")
 install.packages("readr")
 install.packages("dplyr")
 install.packages("janitor")
 install.packages("stringr")
-install.packages("twitteR")
+# install.packages("twitteR")
+install.packages('bskyr')
 
 # install.package("ggplot2")
 print("after the installation")
 
-library(ggplot2)
+# library(ggplot2)
 library(readr)
 library(dplyr)
 library(janitor)
 library(stringr)
-library(twitteR)
+library(bskyr)
 
 print("afterloading")
 # setwd("projects/gh-pfdbot")
@@ -24,8 +25,8 @@ print("afterloading")
 
 print("after the libraryesi")
 
-stock_data_raw <- read_csv("data/tabula-2022JUN30-Stock-Holdings-by-Country.csv", skip = 0, col_names = F)
-stock_data_raw <- read_csv("data/tabula-2022JUN30-Stock-Holdings-by-Country cleaned.csv", skip = 0, col_names = F)
+# stock_data_raw <- read_csv("data/tabula-2022JUN30-Stock-Holdings-by-Country.csv", skip = 0, col_names = F)
+stock_data_raw <- read_csv("data/tabula-2024Dec31-Stock-Holdings-by-Country.csv", skip = 0, col_names = F)
 
 stock_data <- stock_data_raw 
 
@@ -35,9 +36,13 @@ stock_data_names <- c(
 
 names(stock_data) <- stock_data_names
 
+
+stock_data <- stock_data %>% mutate(shares =str_remove(shares, " "))
+stock_data <- stock_data %>% mutate(market_value =str_remove(market_value, " "))
+
 stock_data_dash <- stock_data %>% filter(market_value == "-"  | shares < 1)
 stock_data <- stock_data %>% filter(market_value !="-")
-stock_data <- stock_data %>% mutate(market_value = parse_number(market_value))
+# stock_data <- stock_data %>% mutate(market_value = parse_number(market_value))
 
 
 stock_data <- stock_data %>% mutate(country = str_to_title(country))
@@ -46,9 +51,6 @@ stock_data <- stock_data %>% mutate(company_name = str_to_title(company_name))
 
 
 stock_data_na <- stock_data %>% filter (is.na(market_value) | is.na(company_name) | is.na(shares) | is.na(book_value) | is.na(market_value) | is.na(gain_loss) | is.na(country) | is.na(industry)| is.na(industry_category))
-
-
-
 stock_data <- stock_data %>% filter (!company_name  %in% stock_data_na$company_name)
 
 
@@ -92,10 +94,6 @@ industry_data <- read_csv("data/industries.csv")
 
 
 
-
-
-
-
 print("we have read in the csvs. now to select the emoji" )
 
 stock_flag <- (flag_data %>% filter (country == stock_to_tweet$country))$emoji
@@ -108,55 +106,32 @@ print("#####compoose the tweet - format first ")
 shares <- format(stock_to_tweet$shares, nsmall=0, big.mark=",",scientific=FALSE)
 print( paste0(shares, "- - - shares"))
 
-market_value <- format(stock_to_tweet$market_value, nsmall =0, big.mark = ",", scientific=FALSE)
+# market_value <- format(stock_to_tweet$market_value, nsmall =0, big.mark = ",", scientific=FALSE)
+market_value <- stock_to_tweet$market_value
 # market_value <- format(stock_to_tweet$market_value, digits =0, big.mark = ",", scientific=FALSE)
 
-stock_tweet <- str_glue("Alaskans own {shares} shares of {stock_to_tweet$company_name} worth ${market_value}. It's in the {stock_industry} {stock_to_tweet$industry_category}, based in {stock_flag} {stock_to_tweet$country}.")
-
+stock_tweet <- str_glue("Alaskans own {shares} shares of {stock_to_tweet$company_name} worth ${market_value}. It's in the {stock_industry}, {stock_to_tweet$industry_category} industry, based in {stock_flag} {stock_to_tweet$country}.")
 stock_tweet
-
-
-# setup_twitter_oauth(consumer_key = api_keys$consumer_key,
-#                     consumer_secret = api_keys$consumer_secret,
-#                     access_token = api_keys$access_token,
-#                     access_secret = api_keys$access_secret)
-
-
-# https://canovasjm.netlify.app/2021/01/12/github-secrets-from-python-and-r/#read-into-r-script
 print("getting env vars now")
 
-CONSUMER_KEY <- Sys.getenv("CONSUMER_KEY")
-CONSUMER_SECRET <- Sys.getenv("CONSUMER_SECRET")
-ACCESS_TOKEN <- Sys.getenv("ACCESS_TOKEN")
-SECRET_KEY <- Sys.getenv("SECRET_KEY")
 
-
-c_key_length <- nchar(CONSUMER_KEY)
-c_s_key_length <- nchar(CONSUMER_SECRET)
-a_t_key_length <- nchar(ACCESS_TOKEN)
-s_k_key_length <- nchar(SECRET_KEY)
-
-# print("keylenths next")
-# 
-# print(c_key_length)
-# print(c_s_key_length)
-# print(a_t_key_length)
-# print(s_k_key_length)
-
+BSKYPASS <- Sys.getenv("bskypass")
 
 print("now setting up")
 
-options(httr_oauth_cache=F)
+set_bluesky_user('pfdbot.bsky.social')
+set_bluesky_pass(BSKYPASS)
 
-setup_twitter_oauth(consumer_key = CONSUMER_KEY,
-                    consumer_secret = CONSUMER_SECRET,
-                    access_token = ACCESS_TOKEN,
-                    access_secret = SECRET_KEY)
-# 1
+
+options(httr_oauth_cache=F)
 
 
 print("setup complete")
-tweet(stock_tweet, bypassCharLimit=T)
+
+bs_post(
+  text = stock_tweet 
+)
+
 
 
 ######
@@ -167,27 +142,5 @@ tweet(stock_tweet, bypassCharLimit=T)
 
 
 
-
-
-
-# 
-# 
-# current_time <- Sys.time()
-# # 
-# # basic_plot <- ggplot(stock_data)+
-# #   geom_point(aes(x=book_value, y=market_value, size=gainloss), alpha=.2 , show.legend = F)+
-# #   theme_minimal()+
-# #   ggtitle(current_time)
-# 
-# 
-# ggsave(plot=basic_plot, filename=paste0("data/output/plot.png" ))
-# ggsave(plot=basic_plot, filename=paste0("output/plot.png" ))
-
-# ggplot(stock_data)+
-#   geom_point(aes(x=book_value, y=market_value, size=gainloss), alpha=.2 , show.legend = F)+
-#   theme_minimal()+
-#   ggtitle(current_time)+
-#   facet_wrap(~industry)+
-#   ggsave(paste0("data/output/plot_facet_",current_time ))
 
 
