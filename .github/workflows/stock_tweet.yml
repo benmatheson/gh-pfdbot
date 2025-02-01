@@ -13,6 +13,8 @@ jobs:
       CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      BSKYPASS: ${{ secrets.BSKYPASS }}
+
     steps:
       - uses: actions/checkout@v3
       - uses: r-lib/actions/setup-r@v2
