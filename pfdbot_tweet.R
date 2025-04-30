@@ -75,16 +75,19 @@ industry_data <- read_csv("data/industries.csv")
 
 ##########################checking flags and industries
 
-# unique_countries <- unique(stock_data$country)
-# unique_industries <- unique(stock_data$industry_category)
+unique_countries <- unique(stock_data$country)
+unique_industries <- unique(stock_data$industry_category)
+unique_industries_industry <- unique(stock_data$industry)
+
+# write_csv(data.frame(industry=unique_industries), "unique_industry_category.csv")
 # 
 # 
-# unique_countries_flags <- unique(flag_data$country)
-# unique_industries_emoji <- unique(industry_data$industry)
+unique_countries_flags <- unique(flag_data$country)
+unique_industries_emoji <- unique(industry_data$industry)
 # 
 # 
-# stock_data_no_flag <- stock_data %>% filter (!country %in% unique_countries_flags)
-# stock_data_no_industry_emoji <- stock_data %>% filter (industry_category %in% unique_industries_emoji)
+stock_data_no_flag <- stock_data %>% filter (!country %in% unique_countries_flags)
+stock_data_no_industry_emoji <- stock_data %>% filter (!industry_category %in% unique_industries_emoji)
 
 ##################################################
 
@@ -114,6 +117,8 @@ market_value <- stock_to_tweet$market_value
 market_value <- format(as.numeric(stock_to_tweet$market_value), big.mark = ",", scientific=FALSE)
 
 stock_tweet <- str_glue("Alaskans own {shares} shares of {stock_to_tweet$company_name} worth ${market_value}. It's in the {stock_industry}, {stock_to_tweet$industry_category} industry, based in {stock_flag} {stock_to_tweet$country}.")
+
+print("stock tweet:")
 print(stock_tweet)
 print("getting env vars now")
 
