@@ -116,7 +116,7 @@ print( paste0(shares, "- - - shares"))
 market_value <- stock_to_tweet$market_value
 market_value <- format(as.numeric(stock_to_tweet$market_value), big.mark = ",", scientific=FALSE)
 
-stock_tweet <- str_glue("Alaskans own {shares} shares of {stock_to_tweet$company_name} worth ${market_value}. It's in the {stock_industry}, {stock_to_tweet$industry_category} industry, based in {stock_flag} {stock_to_tweet$country}.")
+stock_tweet <- str_glue("Alaskans own {shares} shares of {stock_to_tweet$company_name} worth ${market_value}. It's in the {stock_industry} {stock_to_tweet$industry_category} industry, based in {stock_flag} {stock_to_tweet$country}.")
 
 print("stock tweet:")
 print(stock_tweet)
